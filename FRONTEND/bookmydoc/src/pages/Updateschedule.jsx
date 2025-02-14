@@ -27,7 +27,7 @@ const Updateschedule = () => {
 
     const fetchSchedule = async () => {
       try {
-        const response = await axiosInstance.get(`http://localhost:3000/doctors/schedule`, { params: { doctorEmail } });
+        const response = await axiosInstance.get(`${import.meta.env.VITE_API_URL}/doctors/schedule`, { params: { doctorEmail } });
         setAvailableSlots(response.data.availableSlots);
         setSelectedDays(response.data.availableDays);
       } catch (err) {
@@ -84,7 +84,7 @@ const Updateschedule = () => {
         slots: availableSlots.find(slot => slot.day === day)?.slots || [],
       }));
 
-      await axiosInstance.put(`http://localhost:3000/doctors/update-schedule`, {
+      await axiosInstance.put(`${import.meta.env.VITE_API_URL}/doctors/update-schedule`, {
         doctorEmail,
         availableDays: selectedDays,
         availableSlots: slotsData,

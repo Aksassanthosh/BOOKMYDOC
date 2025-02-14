@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Typography, Box, Grid, Avatar } from '@mui/material';
-import { deepPurple } from '@mui/material/colors';
+
 
 const AboutUs = () => {
   return (

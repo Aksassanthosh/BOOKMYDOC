@@ -28,7 +28,7 @@ const Availableslots = () => {
   const fetchSlots = async () => {
     setLoading(true);
     try {
-      const response = await axiosInstance.get('http://localhost:3000/doctors/schedule', {
+      const response = await axiosInstance.get(`${import.meta.env.VITE_API_URL}/doctors/schedule`, {
         params: { doctorEmail },
       });
       setSlots(response.data.availableSlots || []);
@@ -41,7 +41,7 @@ const Availableslots = () => {
 
   const fetchBookedSlots = async () => {
     try {
-      const response = await axiosInstance.get('http://localhost:3000/doctors/booked-slots', {
+      const response = await axiosInstance.get(`${import.meta.env.VITE_API_URL}/doctors/booked-slots`, {
         params: { doctorEmail },
       });
       setBookedSlots(response.data.bookedSlots || []);
@@ -84,7 +84,7 @@ const Availableslots = () => {
   console.log(' Sending appointment request:', requestData);
 
   try {
-    const response = await axiosInstance.post('http://localhost:3000/patients/appointments', requestData);
+    const response = await axiosInstance.post(`${import.meta.env.VITE_API_URL}/patients/appointments`, requestData);
 
     console.log(' Appointment booked successfully:', response.data);
     alert('✅ Appointment booked successfully!');

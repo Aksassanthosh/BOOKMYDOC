@@ -35,7 +35,7 @@ const Adminpage = () => {
     const fetchDoctors = async () => {
       try {
         const doctorsRes = await axiosInstance.get(
-          "http://localhost:3000/admins/doctors"
+          `${import.meta.env.VITE_API_URL}/admins/doctors`
         );
         setDoctors(doctorsRes.data);
       } catch (error) {
@@ -66,7 +66,7 @@ const Adminpage = () => {
     if (window.confirm("Are you sure you want to delete this doctor?")) {
       try {
         await axiosInstance.delete(
-          `http://localhost:3000/admins/doctor/${doctorId}`
+          `${import.meta.env.VITE_API_URL}/admins/doctor/${doctorId}`
         );
         setDoctors(doctors.filter((doctor) => doctor._id !== doctorId));
         alert("Doctor deleted successfully.");
@@ -81,7 +81,7 @@ const Adminpage = () => {
     const { doctorId, name, email, specialization } = editDoctor;
     try {
       const response = await axiosInstance.put(
-        `http://localhost:3000/admins/doctor/${doctorId}`,
+        `${import.meta.env.VITE_API_URL}/admins/doctor/${doctorId}`,
         { name, email, specialization }
       );
       

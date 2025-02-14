@@ -8,7 +8,7 @@ import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 const Home = () => {
   return (
     <div>
-      {/* Hero Section */}
+      
       <Box sx={heroStyle}>
         <Typography variant="h3" sx={{ fontWeight: "bold", fontSize: "3rem" }}>
           Your Health, Our Priority
@@ -33,7 +33,7 @@ const Home = () => {
         </Button>
       </Box>
 
-      {/* Features Section */}
+      
       <Container sx={{ mt: 6 }}>
         <Grid container spacing={4}>
           <Grid item xs={12} md={4}>

@@ -13,7 +13,7 @@ const Doctorscard = () => {
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
-        const response = await axiosInstance.get('http://localhost:3000/patients/getdoctors');
+        const response = await axiosInstance.get(`${import.meta.env.VITE_API_URL}/patients/getdoctors`);
         setDoctors(response.data);
       } catch (err) {
         setError('Failed to load doctors');
