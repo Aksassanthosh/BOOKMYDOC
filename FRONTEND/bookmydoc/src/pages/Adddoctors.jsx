@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { Container, TextField, Button, Typography, Paper } from "@mui/material";
-
 import axiosInstance from "../axiosinterceptor";
 
 const Adddoctors = () => {
   const [doctor, setDoctor] = useState({
-    doctorId: "",  // Changed to doctorId
+    doctorId: "",
     name: "",
     email: "",
     password: "",
@@ -15,6 +14,9 @@ const Adddoctors = () => {
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+  
+  const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,9 +28,15 @@ const Adddoctors = () => {
     setError("");
     setSuccess("");
 
+    
+    if (!gmailRegex.test(doctor.email)) {
+      setError("Invalid Gmail address. Please use a valid @gmail.com email.");
+      return;
+    }
+
     try {
       const response = await axiosInstance.post("http://localhost:3000/admins/adddoctor", {
-        doctorId: doctor.doctorId,  // Use doctorId here
+        doctorId: doctor.doctorId,
         name: doctor.name,
         email: doctor.email,
         password: doctor.password,
@@ -36,7 +44,7 @@ const Adddoctors = () => {
       });
       setSuccess("Doctor added successfully!");
       setDoctor({
-        doctorId: "",  // Clear doctorId after success
+        doctorId: "",
         name: "",
         email: "",
         password: "",
@@ -60,10 +68,10 @@ const Adddoctors = () => {
         <form onSubmit={handleSubmit}>
           <TextField 
             label="Doctor ID" 
-            name="doctorId"  // Changed to doctorId
+            name="doctorId"
             fullWidth 
             required 
-            value={doctor.doctorId}  // Use doctorId here
+            value={doctor.doctorId}
             onChange={handleChange} 
             sx={{ mb: 2 }} 
           />
@@ -77,13 +85,15 @@ const Adddoctors = () => {
             sx={{ mb: 2 }} 
           />
           <TextField 
-            label="Email" 
+            label="Email (Gmail only)" 
             name="email" 
             fullWidth 
             required 
             value={doctor.email} 
             onChange={handleChange} 
             sx={{ mb: 2 }} 
+            error={!gmailRegex.test(doctor.email) && doctor.email !== ""}
+            helperText={!gmailRegex.test(doctor.email) && doctor.email !== "" ? "Use a valid @gmail.com email" : ""}
           />
           <TextField 
             label="Password" 
@@ -111,6 +121,7 @@ const Adddoctors = () => {
         </form>
       </Paper>
     </Container>
+    
   );
 };
 

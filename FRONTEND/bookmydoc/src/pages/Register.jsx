@@ -12,21 +12,35 @@ const Register = () => {
   });
   const [error, setError] = useState('');
 
+  
+  const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;  
+  const phoneRegex = /^[+]?[0-9]{10,15}$/;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    
+    if (!gmailRegex.test(form.email)) {
+      setError("Invalid Gmail address. Please use a valid @gmail.com email.");
+      return;
+    }
+
+    
+    if (!phoneRegex.test(form.phone)) {
+      setError("Invalid phone number. It should be 10-15 digits long.");
+      return;
+    }
+
     try {
       const response = await axios.post('http://localhost:3000/patients/register', form);
       console.log(response.data);
-  alert("Registration successful")
-      
+      alert("Registration successful");
       window.location.href = '/login';
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed');
     }
   };
-  
 
- 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prevForm) => ({
@@ -60,10 +74,8 @@ const Register = () => {
               Sign Up
             </Typography>
 
-            
             {error && <Typography color="error">{error}</Typography>}
 
-           
             <form onSubmit={handleSubmit} style={{ width: '100%' }}>
               <TextField
                 label="Full Name"
@@ -76,7 +88,7 @@ const Register = () => {
                 sx={{ marginBottom: 2 }}
               />
               <TextField
-                label="Email"
+                label="Email (Gmail only)"
                 variant="outlined"
                 fullWidth
                 required
@@ -85,6 +97,8 @@ const Register = () => {
                 value={form.email}
                 onChange={handleChange}
                 sx={{ marginBottom: 2 }}
+                error={!gmailRegex.test(form.email) && form.email !== ""}
+                helperText={!gmailRegex.test(form.email) && form.email !== "" ? "Use a valid @gmail.com email" : ""}
               />
               <TextField
                 label="Password"
@@ -107,8 +121,9 @@ const Register = () => {
                 value={form.phone}
                 onChange={handleChange}
                 sx={{ marginBottom: 2 }}
+                error={!phoneRegex.test(form.phone) && form.phone !== ""}
+                helperText={!phoneRegex.test(form.phone) && form.phone !== "" ? "Enter a valid phone number (10-15 digits)" : ""}
               />
-              
               
               <Button
                 type="submit"
@@ -127,7 +142,6 @@ const Register = () => {
             </form>
           </Box>
 
-         
           <Grid container justifyContent="center" sx={{ marginTop: 2 }}>
             <Grid item>
               <Typography variant="body2" color="textSecondary">

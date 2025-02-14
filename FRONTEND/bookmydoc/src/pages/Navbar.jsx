@@ -23,7 +23,7 @@ const Navbar = () => {
     <AppBar position="sticky" sx={{ backgroundColor: "#ffffff", boxShadow: 2 }}>
       <Container>
         <Toolbar>
-          {/* Logo */}
+        
           <Box sx={{ flexGrow: 1, display: "flex", alignItems: "center" }}>
             <img src="/images/logo2.png" alt="Logo" style={{ height: 50 }} />
             <Typography
@@ -34,7 +34,7 @@ const Navbar = () => {
             </Typography>
           </Box>
 
-          {/* Navigation Links */}
+          
           <Box>
             {role === "admin" && (
               <>

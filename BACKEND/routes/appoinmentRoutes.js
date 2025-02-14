@@ -7,11 +7,12 @@ require("dotenv").config();
 
 const router = express.Router();
  
-//Get patient appointments without middleware
+
 router.get("/patient-appointments", async (req, res) => {
  
     let token= req.headers.authorization;
-    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Decode token
+    token = token.split(" ")[1]; 
+    const decoded = jwt.verify(token, process.env.JWT_SECRET); 
     const patientId = decoded.email; 
 console.log('sre',decoded);
  const appoi = await Appointment.find({email:patientId})
@@ -24,8 +25,8 @@ router.get("/doctor-appointments", async (req, res) => {
  
   let token= req.headers.authorization;
   console.log(token);
-  
-  const decoded = jwt.verify(token,process.env.JWT_SECRET); // Decode token
+  token = token.split(" ")[1];
+  const decoded = jwt.verify(token,process.env.JWT_SECRET); 
   const doc = decoded.name; 
 console.log('sre',doc);
 const app = await Appointment.find({doctor:doc})

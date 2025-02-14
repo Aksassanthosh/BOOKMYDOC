@@ -17,16 +17,16 @@ const Login = () => {
 
     try {
       const { data } = await axios.post("http://localhost:3000/patients/loginpage", form);
-      console.log(data); // Log the response to see the token and role
+      console.log(data); 
       if (data.token) {
         sessionStorage.setItem("token", data.token);
         sessionStorage.setItem("role", data.role);
-        // Example of saving email to sessionStorage after login
+        
         sessionStorage.setItem("email", data.email);
 
         alert("Login successful");
 
-        // Use react-router navigate for smooth client-side routing
+        
         switch (data.role) {
           case "admin":
             navigate("/adminpage");
@@ -84,14 +84,12 @@ const Login = () => {
           </Button>
         </form>
 
-        {/* Links for Signup and Forgot Password */}
+        
         <Box sx={{ textAlign: "center", marginTop: 2 }}>
           <Link href="/register" variant="body2" sx={{ marginRight: 2 }}>
             Don't have an account? Sign Up
           </Link>
-          {/* <Link href="/forgot-password" variant="body2">
-            Forgot Password?
-          </Link> */}
+        
         </Box>
       </Paper>
     </Container>

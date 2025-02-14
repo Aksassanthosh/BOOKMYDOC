@@ -47,7 +47,7 @@ function App() {
         
  
 
-        {/* Protect Admin Routes */}
+      
         <Route element={<PrivateRoutes allowedRoles={["Admin"]} />}>
           <Route path="/adminpage" element={<Adminpage />} />
           <Route path="/adddoctors" element={<Adddoctors />} />
@@ -56,7 +56,7 @@ function App() {
           <Route path="/mailfordoc" element={<Mailfordoc/>} />
         </Route>
 
-        {/* Protect Doctor Routes */}
+        
         <Route element={<PrivateRoutes allowedRoles={["doctor"]} />}>
           <Route path="/doctorspage" element={<Doctorspage />} />
           <Route path="/doctorbooking" element={<Doctorappointments />} />

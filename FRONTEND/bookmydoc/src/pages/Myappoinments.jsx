@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Paper, Typography, List, ListItem, ListItemText, Divider } from "@mui/material";
+
 import axiosInstance from "../axiosinterceptor";
 
 const myappoinments = () => {
@@ -11,9 +12,9 @@ const myappoinments = () => {
     const fetchAppointments = async () => { 
       setLoading(true);
       try {
-        const token = sessionStorage.getItem("token"); // Retrieve token
+        const token = sessionStorage.getItem("token"); 
         const response = await axiosInstance.get("http://localhost:3000/appointment/patient-appointments", {
-          headers: { Authorization:token },
+          headers: { Authorization: `Bearer ${token}` },
         });
 
         setAppointments(response.data);

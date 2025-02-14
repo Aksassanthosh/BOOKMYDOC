@@ -12,14 +12,14 @@ const Doctorappointments = () => {
     const fetchAppointments = async () => {
       setLoading(true);
       try {
-        const token = sessionStorage.getItem("token"); // Retrieve token
+        const token = sessionStorage.getItem("token");
         console.log(token);
         
         const response = await axiosInstance.get("http://localhost:3000/appointment/doctor-appointments", {
-          headers: { Authorization:token },
+          headers: { Authorization: `Bearer ${token}` },
         });
   
-        console.log("Response Data:", response.data); // Debugging output
+        console.log("Response Data:", response.data); 
         setAppointments(response.data);
       } catch (err) {
         console.error("Error fetching doctor appointments:", err.response);

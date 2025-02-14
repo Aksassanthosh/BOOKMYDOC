@@ -26,8 +26,8 @@ const Doctorscard = () => {
   }, []);
 
   const handleAppointment = (doctor) => {
-    console.log("Navigating with selected doctor:", doctor); // Debugging
-    navigate('/appointment', { state: { doctor: doctor } }); // Pass entire doctor object to AppointmentForm
+    console.log("Navigating with selected doctor:", doctor); 
+    navigate('/appointment', { state: { doctor: doctor } }); 
   };
 
   if (loading) {
@@ -63,14 +63,14 @@ const Doctorscard = () => {
               onClick={() => handleAppointment(doctor)}
             >
               <CardContent>
-                {/* Doctor's Photo */}
+                
                 <Avatar
                   alt={doctor.name}
-                  src={doctor.photo} // Assuming the 'photo' is the URL to the doctor's image
+                  src={doctor.photo} 
                   sx={{
                     width: 100,
                     height: 100,
-                    margin: '0 auto 16px', // Centers the photo and adds space below it
+                    margin: '0 auto 16px', 
                     border: '2px solid #0066CC',
                   }}
                 />
@@ -92,7 +92,7 @@ const Doctorscard = () => {
                     },
                   }}
                   onClick={(e) => {
-                    e.stopPropagation(); // Prevent card click event from firing
+                    e.stopPropagation(); 
                     handleAppointment(doctor);
                   }}
                 >

@@ -11,7 +11,7 @@ const AboutUs = () => {
 
       <Box sx={{ marginBottom: 4 }}>
         <Typography variant="h6" paragraph>
-          Welcome to [Your Company Name]! Our mission is to simplify healthcare by providing an intuitive platform for patients to easily book appointments with qualified doctors, while also offering seamless tools for healthcare providers to manage their schedules and patient care.
+          Welcome to Bookmydoc Our mission is to simplify healthcare by providing an intuitive platform for patients to easily book appointments with qualified doctors, while also offering seamless tools for healthcare providers to manage their schedules and patient care.
         </Typography>
 
         <Typography variant="h6" paragraph>
@@ -37,7 +37,7 @@ const AboutUs = () => {
         Contact Us
       </Typography>
       <Typography variant="body1" paragraph>
-        If you have any questions or need assistance, feel free to contact us at [Insert Contact Info]. We're here to help!
+        If you have any questions or need assistance, feel free to contact us at 78996655446. We're here to help!
       </Typography>
     </Container>
   );

@@ -10,10 +10,10 @@ const PrivacyPolicy = () => {
 
       <Box sx={{ marginBottom: 2 }}>
         <Typography variant="h6" gutterBottom>
-          Effective Date: [Insert Date]
+          
         </Typography>
         <Typography variant="body1" paragraph>
-          At [Your Company Name], we value your privacy and are committed to protecting the personal data you share with us. This Privacy Policy outlines how we collect, use, store, and safeguard your information when you use our services.
+           we value your privacy and are committed to protecting the personal data you share with us. This Privacy Policy outlines how we collect, use, store, and safeguard your information when you use our services.
         </Typography>
         
         <Typography variant="h6" paragraph>

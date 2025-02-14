@@ -1,15 +1,15 @@
 import React from 'react';
 import { Container, Typography, Box, Button } from '@mui/material';
-import { useLocation } from 'react-router-dom'; // Use useLocation to access state
+import { useLocation } from 'react-router-dom'; 
 
 const Mailfordoc = () => {
-  const location = useLocation(); // Get the location object
-  const { name, email } = location.state || {}; // Access state safely
+  const location = useLocation(); 
+  const { name, email } = location.state || {}; 
 
-  // Generate password
+  
   const password = name ? `${name.toLowerCase()}@123` : '';
 
-  // URL encode the subject and body of the email
+  
   const subject = encodeURIComponent("Welcome to the Team");
   const body = encodeURIComponent(`
     Hello ${name},\n\n
@@ -19,7 +19,7 @@ const Mailfordoc = () => {
     You can log in using these credentials and update your profile.
   `);
 
-  // Construct Gmail compose link
+  
   const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
 
   return (
@@ -48,7 +48,7 @@ const Mailfordoc = () => {
         <Button
           variant="contained"
           color="primary"
-          href={gmailLink}  // Link to open Gmail compose window with pre-filled content
+          href={gmailLink}  
           sx={{ marginTop: 3 }}
         >
           Send Email to {name}

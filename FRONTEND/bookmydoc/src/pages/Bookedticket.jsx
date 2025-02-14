@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom'; // For navigation and location handling
+import { useLocation, useNavigate } from 'react-router-dom'; 
 import { Box, Container, Paper, Typography, Button } from '@mui/material';
 
 const Bookedticket = () => {
-  const location = useLocation(); // Get appointment details passed from AppointmentForm
+  const location = useLocation(); 
   const navigate = useNavigate();
   
-  const appointment = location.state?.appointment; // Appointment details
+  const appointment = location.state?.appointment; 
 
-  // If no appointment info is found, redirect to appointment page
+  
   useEffect(() => {
     if (!appointment) {
       navigate('/appointment');
@@ -16,7 +16,7 @@ const Bookedticket = () => {
   }, [appointment, navigate]);
 
   const handleGoToAppointments = () => {
-    navigate('/myappointments'); // Navigate to My Appointments page
+    navigate('/myappointments'); 
   };
 
   return (

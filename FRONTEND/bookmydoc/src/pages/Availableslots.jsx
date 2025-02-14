@@ -28,7 +28,7 @@ const Availableslots = () => {
   const fetchSlots = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('http://localhost:3000/doctors/schedule', {
+      const response = await axiosInstance.get('http://localhost:3000/doctors/schedule', {
         params: { doctorEmail },
       });
       setSlots(response.data.availableSlots || []);
@@ -67,31 +67,31 @@ const Availableslots = () => {
     return;
   }
 
-  // Format appointment date & time correctly
+  
   const appointmentDate = selectedDay;
   const appointmentTime = selectedSlot;
   const requestData = {
     name: formData.name,
     email: formData.email,
     doctorEmail: formData.doctorEmail,
-    doctor: formData.doctorName,  // 🔹 Ensure correct field name
+    doctor: formData.doctorName,  
     specialization: formData.specialization,
-    appointmentDate,  // 🔹 Ensure correct format (YYYY-MM-DD)
-    appointmentTime,  // 🔹 Ensure correct format (HH:MM)
-    reason: formData.reason,  // 🔹 Ensure reason is included
+    appointmentDate, 
+    appointmentTime, 
+    reason: formData.reason,  
   };
 
-  console.log('🔹 Sending appointment request:', requestData);
+  console.log(' Sending appointment request:', requestData);
 
   try {
     const response = await axiosInstance.post('http://localhost:3000/patients/appointments', requestData);
 
-    console.log('✅ Appointment booked successfully:', response.data);
+    console.log(' Appointment booked successfully:', response.data);
     alert('✅ Appointment booked successfully!');
     navigate('/bookedticket', { state: { appointment: response.data } });
 
   } catch (err) {
-    console.error('❌ Failed to book appointment:', err.response?.data || err.message);
+    console.error(' Failed to book appointment:', err.response?.data || err.message);
     alert(`❌ Failed to book appointment: ${err.response?.data?.message || 'Please try again'}`);
   }
 };
@@ -123,7 +123,7 @@ const Availableslots = () => {
                     key={`${index}-${slotIndex}`}
                     variant="contained"
                     color={isSlotBooked(slotObj.day, slot) ? "error" : "primary"}
-                    disabled={isSlotBooked(slotObj.day, slot)} // Disable booked slots
+                    disabled={isSlotBooked(slotObj.day, slot)} 
                     sx={{ width: 120, marginBottom: 1 }}
                     onClick={() => handleSlotSelection(slotObj.day, slot)}
                   >

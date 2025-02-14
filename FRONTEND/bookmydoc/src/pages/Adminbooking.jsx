@@ -13,7 +13,7 @@ const Adminbooking = () => {
       setLoading(true);
       try {
         const response = await axiosInstance.get("http://localhost:3000/admins/getallappointments");
-        console.log("API Response:", response.data); // Debugging output
+        console.log("API Response:", response.data); 
         setAppointments(response.data);
       } catch (err) {
         console.error("Error fetching appointments:", err);

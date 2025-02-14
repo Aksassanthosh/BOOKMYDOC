@@ -17,7 +17,7 @@ import {
 import EmailIcon from "@mui/icons-material/Email";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useNavigate } from "react-router-dom"; // Use useNavigate instead of useHistory
+import { useNavigate } from "react-router-dom"; 
 import axiosInstance from "../axiosinterceptor";
 
 const Adminpage = () => {
@@ -48,7 +48,7 @@ const Adminpage = () => {
 
   const handleSendEmail = (doctor) => {
     navigate("/mailfordoc", {
-      state: { name: doctor.name, email: doctor.email }, // Pass the doctor details
+      state: { name: doctor.name, email: doctor.email }, 
     });
   };
 
@@ -59,7 +59,7 @@ const Adminpage = () => {
       email,
       specialization,
     });
-    setOpenDialog(true); // Open the edit form
+    setOpenDialog(true); 
   };
 
   const handleDelete = async (doctorId) => {
@@ -84,7 +84,7 @@ const Adminpage = () => {
         `http://localhost:3000/admins/doctor/${doctorId}`,
         { name, email, specialization }
       );
-      // Update doctor list with the new data
+      
       setDoctors((prevDoctors) =>
         prevDoctors.map((doctor) =>
           doctor._id === doctorId
@@ -156,7 +156,7 @@ const Adminpage = () => {
                     variant="contained"
                     color="primary"
                     startIcon={<EmailIcon />}
-                    onClick={() => handleSendEmail(doctor)} // Send the doctor details
+                    onClick={() => handleSendEmail(doctor)} 
                     fullWidth
                     sx={{ marginBottom: 1 }}
                   >
@@ -193,7 +193,7 @@ const Adminpage = () => {
         ))}
       </Grid>
 
-      {/* Update Doctor Dialog Form */}
+      
       <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
         <DialogTitle>Update Doctor</DialogTitle>
         <DialogContent>

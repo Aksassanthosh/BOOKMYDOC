@@ -11,7 +11,7 @@ require('dotenv').config();
 const router = express.Router();
 
 
-// User Registration
+
 router.post("/register", async (req, res) => {
   try {
     const { name, email, password, phone } = req.body;
@@ -34,7 +34,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// User Login
+
 router.post("/loginpage", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -43,7 +43,7 @@ router.post("/loginpage", async (req, res) => {
       return res.status(400).json({ message: "Email and password are required" });
     }
 
-    // First check in the User collection (patients & admins)
+    
     let user = await User.findOne({ email });
     if (user) {
       const isMatch = await bcrypt.compare(password, user.password);
@@ -51,7 +51,7 @@ router.post("/loginpage", async (req, res) => {
         return res.status(400).json({ message: "Invalid credentials" });
       }
 
-      // Generate JWT token for user (admin/patient)
+      
       try {
         const token = jwt.sign(
           { id: user._id, role: user.role,email: user.email  },
@@ -66,7 +66,7 @@ router.post("/loginpage", async (req, res) => {
       }
     }
 
-    // If not found in User collection, check in Doctor collection
+  
     let doctor = await Doctor.findOne({ email });
     if (doctor) {
       const isMatch = await bcrypt.compare(password, doctor.password);
@@ -74,7 +74,7 @@ router.post("/loginpage", async (req, res) => {
         return res.status(400).json({ message: "Invalid credentials" });
       }
 
-      // Generate JWT token for doctor
+      
       try {
         const token = jwt.sign(
           { id: doctor._id, role: "doctor",email:doctor.email,name:doctor.name },
@@ -89,7 +89,7 @@ router.post("/loginpage", async (req, res) => {
       }
     }
 
-    // If no user found in both collections
+    
     return res.status(404).json({ message: "User not found" });
   } catch (error) {
     console.error("Server error:", error);
@@ -98,13 +98,13 @@ router.post("/loginpage", async (req, res) => {
 });
 router.get('/getdoctors', async (req, res) => {
   try {
-    const doctors = await Doctor.find(); // Fetch all doctors from DB
+    const doctors = await Doctor.find(); 
     res.status(200).json(doctors);
   } catch (error) {
     res.status(500).json({ message: 'Server Error: Unable to fetch doctors' });
   }
 });
-// Protected Route Example (Directly Including Token Verification)
+
 router.get("/protected", async (req, res) => {
   try {
     const token = req.header("Authorization");
@@ -125,8 +125,8 @@ router.get("/protected", async (req, res) => {
 
 
 // Route for booking an appointment
-console.log("EMAIL_USER:", process.env.EMAIL_USER);  // Log to check if credentials are being loaded
-console.log("EMAIL_PASS:", process.env.EMAIL_PASS);  // Log to check if credentials are being loaded
+// console.log("EMAIL_USER:", process.env.EMAIL_USER);  // Log to check if credentials are being loaded
+// console.log("EMAIL_PASS:", process.env.EMAIL_PASS);  // Log to check if credentials are being loaded
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -138,9 +138,9 @@ const transporter = nodemailer.createTransport({
 
 transporter.verify((error, success) => {
   if (error) {
-    console.log("❌ Nodemailer verification failed:", error);
+    console.log(" Nodemailer verification failed:", error);
   } else {
-    console.log("✅ Nodemailer is ready to send emails.");
+    console.log(" Nodemailer is ready to send emails.");
   }
 });
 
@@ -152,14 +152,14 @@ router.post('/appointments', async (req, res) => {
     console.log('🔹 Incoming appointment request:', req.body);
 
     if (!name || !email || !doctor || !specialization || !appointmentDate || !appointmentTime || !reason) {
-      console.log('❌ Missing required fields');
+      console.log(' Missing required fields');
       return res.status(400).json({ message: 'Missing required fields' });
     }
 
     // Check if the slot is already booked
     const existingBooking = await Appointment.findOne({ doctor, appointmentDate, appointmentTime });
     if (existingBooking) {
-      console.log('❌ Slot already booked:', appointmentDate, appointmentTime);
+      console.log(' Slot already booked:', appointmentDate, appointmentTime);
       return res.status(400).json({ message: 'This slot is already booked' });
     }
 
@@ -175,7 +175,7 @@ router.post('/appointments', async (req, res) => {
     });
 
     await newAppointment.save();
-    console.log('✅ Appointment booked successfully:', newAppointment);
+    console.log(' Appointment booked successfully:', newAppointment);
 
     // Send confirmation email to the patient
     const subject = 'Your Appointment Confirmation';
@@ -191,19 +191,19 @@ router.post('/appointments', async (req, res) => {
     `;
 
     const mailOptions = {
-      from: process.env.EMAIL_USER, // Sender's email address
-      to: email, // Patient's email address
-      subject: subject, // Subject of the email
-      text: body, // Body of the email
+      from: process.env.EMAIL_USER, 
+      to: email, 
+      subject: subject, 
+      text: body,
     };
 
     // Send the email
     await transporter.sendMail(mailOptions);
-    console.log(`✅ Appointment confirmation email sent to ${email}`);
+    console.log(` Appointment confirmation email sent to ${email}`);
 
     res.status(201).json(newAppointment);
   } catch (error) {
-    console.error('❌ Error booking appointment:', error);
+    console.error(' Error booking appointment:', error);
     res.status(500).json({ message: 'Error booking appointment', error: error.message });
   }
 });

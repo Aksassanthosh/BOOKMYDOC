@@ -72,7 +72,7 @@ const Home = () => {
         </Grid>
       </Container>
 
-      {/* Footer */}
+      
       <Box sx={footerStyle}>
         <Container>
           <Grid container spacing={4}>
@@ -90,6 +90,11 @@ const Home = () => {
               <Typography variant="h6">Contact Us</Typography>
               <Typography variant="body2">Email: contact@hospital.com</Typography>
               <Typography variant="body2">Phone: +123 456 7890</Typography>
+              
+              
+            </Grid>
+            <Grid item xs={4} sm={8}>
+            <Typography variant="body2" style={{marginLeft:"55%"}} >@copyrights2025 bookmydoc.All rights reserved</Typography>
             </Grid>
           </Grid>
         </Container>
@@ -97,7 +102,13 @@ const Home = () => {
     </div>
   );
 };
-
+const footerStyle = {
+  mt: 6,
+  py: 4,
+  textAlign: "center",
+  backgroundColor: "#333",
+  color: "#fff",
+};
 const heroStyle = {
   height: "60vh",
   display: "flex",
@@ -125,12 +136,6 @@ const featureCardStyle = {
   },
 };
 
-const footerStyle = {
-  mt: 6,
-  py: 4,
-  textAlign: "center",
-  backgroundColor: "#333",
-  color: "#fff",
-};
+
 
 export default Home;
