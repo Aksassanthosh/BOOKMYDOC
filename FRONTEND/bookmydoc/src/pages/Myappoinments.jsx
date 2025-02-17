@@ -13,7 +13,7 @@ const myappoinments = () => {
       setLoading(true);
       try {
         const token = sessionStorage.getItem("token"); 
-        const response = await axiosInstance.get(`${import.meta.env.VITE_API_URL}/appointment/patient-appointments`, {
+        const response = await axiosInstance.get("http://localhost:3000/appointment/patient-appointments", {
           headers: { Authorization: `Bearer ${token}` },
         });
 

@@ -159,7 +159,7 @@ router.post('/appointments', async (req, res) => {
     // Check if the slot is already booked
     const existingBooking = await Appointment.findOne({ doctor, appointmentDate, appointmentTime });
     if (existingBooking) {
-      console.log(' Slot already booked:', appointmentDate, appointmentTime);
+      console.log('❌ Slot already booked:', appointmentDate, appointmentTime);
       return res.status(400).json({ message: 'This slot is already booked' });
     }
 
@@ -175,9 +175,49 @@ router.post('/appointments', async (req, res) => {
     });
 
     await newAppointment.save();
-    console.log(' Appointment booked successfully:', newAppointment);
+    console.log('✅ Appointment booked successfully:', newAppointment);
 
-    // Send confirmation email to the patient
+    // Find the doctor using the doctor's name
+    const doctorRecord = await Doctor.findOne({ name: doctor });
+
+    if (!doctorRecord) {
+      console.log('❌ Doctor not found');
+      return res.status(404).json({ message: 'Doctor not found' });
+    }
+
+    // Remove the booked slot from availableSlots
+    doctorRecord.availableSlots = doctorRecord.availableSlots
+      .map((dayObj) => {
+        if (dayObj.day === appointmentDate) {
+          return {
+            ...dayObj,
+            slots: dayObj.slots.filter((slot) => slot !== appointmentTime),
+          };
+        }
+        return dayObj;
+      })
+      .filter((dayObj) => dayObj.slots.length > 0); // Remove empty days
+
+    // Ensure bookedSlots array exists
+    if (!doctorRecord.bookedSlots) {
+      doctorRecord.bookedSlots = [];
+    }
+
+    // Add the slot to bookedSlots
+    const bookedDayIndex = doctorRecord.bookedSlots.findIndex((d) => d.day === appointmentDate);
+    if (bookedDayIndex !== -1) {
+      if (!doctorRecord.bookedSlots[bookedDayIndex].slots.includes(appointmentTime)) {
+        doctorRecord.bookedSlots[bookedDayIndex].slots.push(appointmentTime);
+      }
+    } else {
+      doctorRecord.bookedSlots.push({ day: appointmentDate, slots: [appointmentTime] });
+    }
+
+    // Save the updated doctor record
+    await doctorRecord.save();
+    console.log('✅ Doctor schedule updated:', doctorRecord);
+
+    // Send confirmation email
     const subject = 'Your Appointment Confirmation';
     const body = `
       Hello ${name},\n\n
@@ -191,19 +231,18 @@ router.post('/appointments', async (req, res) => {
     `;
 
     const mailOptions = {
-      from: process.env.EMAIL_USER, 
-      to: email, 
-      subject: subject, 
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: subject,
       text: body,
     };
 
-    // Send the email
     await transporter.sendMail(mailOptions);
-    console.log(` Appointment confirmation email sent to ${email}`);
+    console.log(`📩 Appointment confirmation email sent to ${email}`);
 
     res.status(201).json(newAppointment);
   } catch (error) {
-    console.error(' Error booking appointment:', error);
+    console.error('❌ Error booking appointment:', error);
     res.status(500).json({ message: 'Error booking appointment', error: error.message });
   }
 });

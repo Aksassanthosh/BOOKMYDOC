@@ -21,7 +21,6 @@ const DoctorSchema = new mongoose.Schema({
     ],
     required: true
   },
-  // ... other fields ...
 
 
   bookedSlots: [

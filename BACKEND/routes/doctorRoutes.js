@@ -119,52 +119,30 @@ const generateSlotsForDay = (startTime, endTime) => {
 
 
 
-router.get('/booked-slots', async (req, res) => {
-  try {
-    const { doctorEmail } = req.query;
-
-    console.log('🔹 Fetching booked slots for:', doctorEmail);
-
-    if (!doctorEmail) {
-      console.log(' Missing doctorEmail in request');
-      return res.status(400).json({ message: 'doctorEmail is required' });
-    }
-
-    // Fetch all booked appointments for this doctor
-    const bookedAppointments = await Appointment.find({ doctorEmail });
-
-    if (!bookedAppointments.length) {
-      console.log('No booked slots found');
-      return res.status(200).json({ bookedSlots: [] });
-    }
-
-    
-    const bookedSlotsMap = {};
-
-    bookedAppointments.forEach((appointment) => {
-      const date = appointment.appointmentDate; 
-      if (!bookedSlotsMap[date]) {
-        bookedSlotsMap[date] = [];
+  router.get('/booked-slots', async (req, res) => {
+    try {
+      const { doctor } = req.query;
+  
+      if (!doctor) {
+        return res.status(400).json({ message: 'Doctor name is required' });
       }
-      bookedSlotsMap[date].push(appointment.appointmentTime);
-    });
-
-    console.log(' Booked slots:', bookedSlotsMap);
-
-    
-    const bookedSlots = Object.keys(bookedSlotsMap).map((day) => ({
-      day,
-      slots: bookedSlotsMap[day],
-    }));
-
-    res.status(200).json({ bookedSlots });
-
-  } catch (error) {
-    console.error(' Error fetching booked slots:', error);
-    res.status(500).json({ message: 'Error fetching booked slots', error: error.message });
-  }
-});
-
+  
+      // Fetch doctor record using name
+      const doctorRecord = await Doctor.findOne({ name: doctor });
+  
+      if (!doctorRecord) {
+        return res.status(404).json({ message: 'Doctor not found' });
+      }
+  
+      console.log('✅ Booked slots:', doctorRecord.bookedSlots);
+      res.status(200).json({ bookedSlots: doctorRecord.bookedSlots });
+  
+    } catch (error) {
+      console.error('❌ Error fetching booked slots:', error);
+      res.status(500).json({ message: 'Error fetching booked slots', error: error.message });
+    }
+  });
+  
 
 
 router.post('/book-slot', async (req, res) => {

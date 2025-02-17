@@ -28,7 +28,7 @@ const Availableslots = () => {
   const fetchSlots = async () => {
     setLoading(true);
     try {
-      const response = await axiosInstance.get(`${import.meta.env.VITE_API_URL}/doctors/schedule`, {
+      const response = await axiosInstance.get('http://localhost:3000/doctors/schedule', {
         params: { doctorEmail },
       });
       setSlots(response.data.availableSlots || []);
@@ -41,7 +41,7 @@ const Availableslots = () => {
 
   const fetchBookedSlots = async () => {
     try {
-      const response = await axiosInstance.get(`${import.meta.env.VITE_API_URL}/doctors/booked-slots`, {
+      const response = await axiosInstance.get('http://localhost:3000/doctors/booked-slots', {
         params: { doctorEmail },
       });
       setBookedSlots(response.data.bookedSlots || []);
@@ -62,40 +62,43 @@ const Availableslots = () => {
   };
 
   const handleBookAppointment = async () => {
-  if (!selectedDay || !selectedSlot) {
-    alert('Please select a slot before booking.');
-    return;
-  }
-
+    if (!selectedDay || !selectedSlot) {
+      alert('Please select a slot before booking.');
+      return;
+    }
   
-  const appointmentDate = selectedDay;
-  const appointmentTime = selectedSlot;
-  const requestData = {
-    name: formData.name,
-    email: formData.email,
-    doctorEmail: formData.doctorEmail,
-    doctor: formData.doctorName,  
-    specialization: formData.specialization,
-    appointmentDate, 
-    appointmentTime, 
-    reason: formData.reason,  
+    const appointmentDate = selectedDay;
+    const appointmentTime = selectedSlot;
+    const requestData = {
+      name: formData.name,
+      email: formData.email,
+      doctor: formData.doctorName,  // Use doctor's name
+      specialization: formData.specialization,
+      appointmentDate,
+      appointmentTime,
+      reason: formData.reason,
+    };
+  
+    console.log('📩 Sending appointment request:', requestData);
+  
+    try {
+      const response = await axiosInstance.post('http://localhost:3000/patients/appointments', requestData);
+  
+      console.log('✅ Appointment booked successfully:', response.data);
+      alert('✅ Appointment booked successfully!');
+      
+      // Refresh booked slots list
+      fetchBookedSlots();
+      fetchSlots();
+  
+      navigate('/bookedticket', { state: { appointment: response.data } });
+  
+    } catch (err) {
+      console.error('❌ Failed to book appointment:', err.response?.data || err.message);
+      alert(`❌ Failed to book appointment: ${err.response?.data?.message || 'Please try again'}`);
+    }
   };
-
-  console.log(' Sending appointment request:', requestData);
-
-  try {
-    const response = await axiosInstance.post(`${import.meta.env.VITE_API_URL}/patients/appointments`, requestData);
-
-    console.log(' Appointment booked successfully:', response.data);
-    alert('✅ Appointment booked successfully!');
-    navigate('/bookedticket', { state: { appointment: response.data } });
-
-  } catch (err) {
-    console.error(' Failed to book appointment:', err.response?.data || err.message);
-    alert(`❌ Failed to book appointment: ${err.response?.data?.message || 'Please try again'}`);
-  }
-};
-
+  
   return (
     <Container sx={{ marginTop: 4 }}>
       <Typography variant="h4" align="center" sx={{ marginBottom: 3 }}>

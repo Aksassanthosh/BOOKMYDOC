@@ -15,7 +15,7 @@ const Doctorspage = () => {
         const doctorEmail = sessionStorage.getItem("email");
         console.log("Fetching doctor with email:", doctorEmail);
         
-        const response = await axiosInstance.get(`${import.meta.env.VITE_API_URL}/doctors/doctors/${doctorEmail}`);
+        const response = await axiosInstance.get(`http://localhost:3000/doctors/doctors/${doctorEmail}`);
         
         setDoctor(response.data);
         setSchedule(response.data.schedule || { availableDays: [], availableTimes: [] });

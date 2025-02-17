@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, Typography, Button, Container, Grid, Avatar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-
 import axiosInstance from '../axiosinterceptor';
 
 const Doctorscard = () => {
@@ -11,9 +10,17 @@ const Doctorscard = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      alert("Please log in to view doctors.");
+      navigate("/");
+      return;
+    }
+
     const fetchDoctors = async () => {
       try {
-        const response = await axiosInstance.get(`${import.meta.env.VITE_API_URL}/patients/getdoctors`);
+        const response = await axiosInstance.get('http://localhost:3000/patients/getdoctors');
         setDoctors(response.data);
       } catch (err) {
         setError('Failed to load doctors');
@@ -23,7 +30,7 @@ const Doctorscard = () => {
     };
 
     fetchDoctors();
-  }, []);
+  }, [navigate]);
 
   const handleAppointment = (doctor) => {
     console.log("Navigating with selected doctor:", doctor); 
@@ -63,7 +70,6 @@ const Doctorscard = () => {
               onClick={() => handleAppointment(doctor)}
             >
               <CardContent>
-                
                 <Avatar
                   alt={doctor.name}
                   src={doctor.photo} 
