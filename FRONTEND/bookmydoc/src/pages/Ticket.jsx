@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'; 
 import { Box, Container, Paper, Typography, Button } from '@mui/material';
 
-const Bookedticket = () => {
+const Ticket = () => {
   const location = useLocation(); 
   const navigate = useNavigate();
   
@@ -66,4 +66,4 @@ const Bookedticket = () => {
   );
 };
 
-export default Bookedticket;
+export default Ticket;

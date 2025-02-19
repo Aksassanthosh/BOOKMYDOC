@@ -9,7 +9,7 @@ import PrivateRoutes from "./pages/PrivateRoutes";
 import Adminpage from "./pages/Adminpage";
 import Adddoctors from "./pages/Adddoctors";
 import Doctorspage from "./pages/Doctorspage";
-import Bookedticket from "./pages/Bookedticket";
+
 import Myappoinments from "./pages/Myappoinments";
 import Doctorappointments from "./pages/Doctorappointments";
 import Updateschedule from "./pages/Updateschedule";
@@ -20,6 +20,8 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditions from "./pages/TermsAndCondition";
 import Security from "./pages/Security";
 import AboutUs from "./pages/AboutUs";
+
+import Ticket from "./pages/Ticket";
 
 
 
@@ -36,7 +38,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/doctorss" element={<Doctorscard />} />
-        <Route path="/bookedticket" element={<Bookedticket />} />
+        <Route path="/bookedticket" element={< Ticket/>} />
         
         <Route path="/myappointments" element={<Myappoinments  />} />
         <Route path="/privacy" element={<PrivacyPolicy  />} />
