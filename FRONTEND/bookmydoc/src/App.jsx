@@ -9,7 +9,7 @@ import PrivateRoutes from "./pages/PrivateRoutes";
 import Adminpage from "./pages/Adminpage";
 import Adddoctors from "./pages/Adddoctors";
 import Doctorspage from "./pages/Doctorspage";
-import Bookedticket from "./pages/bookedticket";
+import Bookedticket from "./pages/Bookedticket";
 import Myappoinments from "./pages/Myappoinments";
 import Doctorappointments from "./pages/Doctorappointments";
 import Updateschedule from "./pages/Updateschedule";
