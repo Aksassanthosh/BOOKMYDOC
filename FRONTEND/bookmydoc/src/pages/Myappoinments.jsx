@@ -1,32 +1,44 @@
 import React, { useState, useEffect } from "react";
-import { Container, Paper, Typography, List, ListItem, ListItemText, Divider } from "@mui/material";
-
+import { Container, Paper, Typography, List, ListItem, ListItemText, Divider, Button } from "@mui/material";
 import axiosInstance from "../axiosinterceptor";
 
-const myappoinments = () => {
+const Myappoinments = () => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchAppointments = async () => { 
-      setLoading(true);
-      try {
-        const token = sessionStorage.getItem("token"); 
-        const response = await axiosInstance.get("http://localhost:3000/appointment/patient-appointments", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        setAppointments(response.data);
-      } catch (err) {
-        setError("Failed to load appointments.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchAppointments();
   }, []);
+
+  const fetchAppointments = async () => {
+    setLoading(true);
+    try {
+      const token = sessionStorage.getItem("token");
+      const response = await axiosInstance.get("http://localhost:3000/appointment/patient-appointments", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setAppointments(response.data);
+    } catch (err) {
+      setError("Failed to load appointments.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCancelAppointment = async (appointmentId) => {
+    if (!window.confirm("Are you sure you want to cancel this appointment?")) return;
+
+    try {
+      await axiosInstance.delete(`http://localhost:3000/appointment/cancel-appointment/${appointmentId}`);
+
+      alert("Appointment canceled successfully!");
+      fetchAppointments(); // Refresh appointments
+    } catch (err) {
+      console.error("Error canceling appointment:", err);
+      alert("Failed to cancel appointment.");
+    }
+  };
 
   return (
     <Container maxWidth="md">
@@ -50,6 +62,13 @@ const myappoinments = () => {
                     primary={`Dr. ${appt.doctor} - ${appt.specialization}`}
                     secondary={`📅 ${new Date(appt.appointmentDate).toLocaleDateString()} at ${appt.appointmentTime}`}
                   />
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={() => handleCancelAppointment(appt._id)}
+                  >
+                    Cancel
+                  </Button>
                 </ListItem>
                 <Divider />
               </React.Fragment>
@@ -61,4 +80,4 @@ const myappoinments = () => {
   );
 };
 
-export default myappoinments;
+export default Myappoinments;
