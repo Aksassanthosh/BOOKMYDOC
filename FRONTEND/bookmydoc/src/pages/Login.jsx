@@ -16,7 +16,7 @@ const Login = () => {
     }
 
     try {
-      const { data } = await axios.post("http://localhost:3000/patients/loginpage", form);
+      const { data } = await axios.post("/api/patients/loginpage", form);
       console.log(data); 
       if (data.token) {
         sessionStorage.setItem("token", data.token);

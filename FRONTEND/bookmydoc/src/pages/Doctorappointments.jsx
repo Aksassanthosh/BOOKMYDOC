@@ -15,7 +15,7 @@ const Doctorappointments = () => {
         const token = sessionStorage.getItem("token");
         console.log(token);
         
-        const response = await axiosInstance.get("http://localhost:3000/appointment/doctor-appointments", {
+        const response = await axiosInstance.get("/appointment/doctor-appointments", {
           headers: { Authorization: `Bearer ${token}` },
         });
   
