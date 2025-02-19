@@ -35,7 +35,7 @@ const Adminpage = () => {
     const fetchDoctors = async () => {
       try {
         const doctorsRes = await axiosInstance.get(
-          "/admins/doctors"
+          "http://localhost:3000/admins/doctors"
         );
         setDoctors(doctorsRes.data);
       } catch (error) {
@@ -66,7 +66,7 @@ const Adminpage = () => {
     if (window.confirm("Are you sure you want to delete this doctor?")) {
       try {
         await axiosInstance.delete(
-          `/admins/doctor/${doctorId}`
+          `http://localhost:3000/admins/doctor/${doctorId}`
         );
         setDoctors(doctors.filter((doctor) => doctor._id !== doctorId));
         alert("Doctor deleted successfully.");
@@ -81,7 +81,7 @@ const Adminpage = () => {
     const { doctorId, name, email, specialization } = editDoctor;
     try {
       const response = await axiosInstance.put(
-        `/admins/doctor/${doctorId}`,
+        `http://localhost:3000/admins/doctor/${doctorId}`,
         { name, email, specialization }
       );
       

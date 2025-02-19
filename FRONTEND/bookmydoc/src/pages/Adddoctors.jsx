@@ -35,7 +35,7 @@ const Adddoctors = () => {
     }
 
     try {
-      const response = await axiosInstance.post("/admins/adddoctor", {
+      const response = await axiosInstance.post("http://localhost:3000/admins/adddoctor", {
         doctorId: doctor.doctorId,
         name: doctor.name,
         email: doctor.email,

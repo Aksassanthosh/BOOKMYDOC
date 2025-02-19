@@ -28,7 +28,7 @@ const Availableslots = () => {
   const fetchSlots = async () => {
     setLoading(true);
     try {
-      const response = await axiosInstance.get('/doctors/schedule', {
+      const response = await axiosInstance.get('http://localhost:3000/doctors/schedule', {
         params: { doctorEmail },
       });
       setSlots(response.data.availableSlots || []);
@@ -41,7 +41,7 @@ const Availableslots = () => {
 
   const fetchBookedSlots = async () => {
     try {
-      const response = await axiosInstance.get('/doctors/booked-slots', {
+      const response = await axiosInstance.get('http://localhost:3000/doctors/booked-slots', {
         params: { doctorEmail },
       });
       setBookedSlots(response.data.bookedSlots || []);
@@ -82,7 +82,7 @@ const Availableslots = () => {
     console.log('📩 Sending appointment request:', requestData);
   
     try {
-      const response = await axiosInstance.post('/patients/appointments', requestData);
+      const response = await axiosInstance.post('http://localhost:3000/patients/appointments', requestData);
   
       console.log('✅ Appointment booked successfully:', response.data);
       alert('✅ Appointment booked successfully!');
