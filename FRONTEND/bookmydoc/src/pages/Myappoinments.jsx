@@ -15,7 +15,7 @@ const Myappoinments = () => {
     setLoading(true);
     try {
       const token = sessionStorage.getItem("token");
-      const response = await axiosInstance.get("http://localhost:3000/appointment/patient-appointments", {
+      const response = await axiosInstance.get(`${import.meta.env.VITE_API_BASE_URL}/appointment/patient-appointments`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setAppointments(response.data);
@@ -30,7 +30,7 @@ const Myappoinments = () => {
     if (!window.confirm("Are you sure you want to cancel this appointment?")) return;
 
     try {
-      await axiosInstance.delete(`http://localhost:3000/appointment/cancel-appointment/${appointmentId}`);
+      await axiosInstance.delete(`${import.meta.env.VITE_API_BASE_URL}/appointment/cancel-appointment/${appointmentId}`);
 
       alert("Appointment canceled successfully!");
       fetchAppointments(); // Refresh appointments

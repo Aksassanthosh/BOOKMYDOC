@@ -15,7 +15,7 @@ const Doctorspage = () => {
         const doctorEmail = sessionStorage.getItem("email");
         console.log("Fetching doctor with email:", doctorEmail);
         
-        const response = await axiosInstance.get(`http://localhost:3000/doctors/doctors/${doctorEmail}`);
+        const response = await axiosInstance.get(`${import.meta.env.VITE_API_BASE_URL}/doctors/doctors/${doctorEmail}`);
         
         setDoctor(response.data);
         setSchedule(response.data.schedule || { availableDays: [], availableTimes: [] });
@@ -31,7 +31,7 @@ const Doctorspage = () => {
 
   const handleScheduleChange = async () => {
     try {
-      await axiosInstance.put(`http://localhost:3000/doctors/update-schedule`, { doctorId, ...schedule });
+      await axiosInstance.put(`${import.meta.env.VITE_API_BASE_URL}/doctors/update-schedule`, { doctorId, ...schedule });
       alert("Schedule updated!");
     } catch (error) {
       console.error("Failed to update schedule:", error);
