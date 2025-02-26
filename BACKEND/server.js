@@ -1,7 +1,11 @@
 const express = require('express')
 const app = express()
 const cors = require('cors')
-app.use(cors())
+app.use(cors({
+    origin: 'https://bookmydoc-1-so70.onrender.com', 
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true
+  }));
 const patientRoutes = require('./routes/patientRoutes')
 const adminroutes=require("./routes/adminroutes")
 const doctorroutes=require("./routes/doctorRoutes")
