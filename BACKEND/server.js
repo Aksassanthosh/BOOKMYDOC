@@ -1,7 +1,8 @@
 const express = require('express')
 const app = express()
 const cors = require('cors')
-app.use(cors({ origin: "*" }));
+app.use(cors({ origin: "https://bookmydoc-1-so70.onrender.com", credentials: true }));
+
 const patientRoutes = require('./routes/patientRoutes')
 const adminroutes=require("./routes/adminroutes")
 const doctorroutes=require("./routes/doctorRoutes")
