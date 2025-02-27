@@ -1,14 +1,20 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/',
+  base: "/",
   build: {
-    outDir: 'dist', 
+    outDir: "dist",
   },
   server: {
-    historyApiFallback: true,  
+    proxy: {
+      "/api": {
+        target: "https://bookmydoc-y330.onrender.com", // Your backend URL
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, ""), // Removes "/api" before forwarding
+      },
+    },
   },
 });
